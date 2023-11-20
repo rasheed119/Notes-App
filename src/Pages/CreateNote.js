@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Components/Header";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -19,6 +19,7 @@ const create_note_validation_schema = yup.object().shape({
 function CreateNote() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["access_token"]);
+  const [loading, setloading] = useState(false);
   const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
     useFormik({
       initialValues: {
@@ -27,6 +28,7 @@ function CreateNote() {
       },
       validationSchema: create_note_validation_schema,
       onSubmit: async (data) => {
+        setloading(true);
         try {
           axios.post(
             `${api}/notes/create`,
@@ -51,6 +53,7 @@ function CreateNote() {
             navigate("/home");
           }, 3000);
         } catch (error) {
+          setloading(false);
           console.log(error.message);
           toast.error(`${error.response.data.Error}`, {
             position: "top-center",
@@ -109,12 +112,16 @@ function CreateNote() {
             )}
           </div>
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="bg-blue-800 p-4 rounded-full hover:text-white transition-all duration-100 hover:opacity-90"
-            >
-              Create note
-            </button>
+            {loading ? (
+              <div className="spinner"></div>
+            ) : (
+              <button
+                type="submit"
+                className="bg-blue-800 p-4 rounded-full hover:text-white transition-all duration-100 hover:opacity-90 text-white uppercase"
+              >
+                Create note
+              </button>
+            )}
           </div>
         </form>
         <ToastContainer

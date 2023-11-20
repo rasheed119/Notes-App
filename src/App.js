@@ -4,8 +4,9 @@ import Signup from "./Pages/Signup";
 import Home from "./Pages/Home";
 import PrivateRoute from "./Components/PrivateRoute";
 import { useEffect, useState } from "react";
-import EditNotes from "./Pages/EditNotes";
 import CreateNote from "./Pages/CreateNote";
+import Notes from "./Pages/Notes";
+import Edit from "./Pages/Edit";
 
 function App() {
   const [theme, settheme] = useState(
@@ -60,8 +61,9 @@ function App() {
         <Route path="/sign-up" element={<Signup />} />
         <Route element={<PrivateRoute />}>
           <Route path="/home" element={<Home />} />
-          <Route path="/edit/:id" element={EditNotes} />
           <Route path="/create" element={<CreateNote />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/edit/:id" element={<Edit/>}/>
         </Route>
       </Routes>
     </>
