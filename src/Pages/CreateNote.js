@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Header from "../Components/Header";
-import * as yup from "yup";
-import { useFormik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { api } from "../api";
@@ -47,6 +45,7 @@ function CreateNote() {
     } else {
       seterror(false);
       try {
+        setloading(true)
         await axios.post(
           `${api}/notes/create`,
           { title, description, user_id: localStorage.getItem("userID") },
@@ -70,7 +69,8 @@ function CreateNote() {
           navigate("/home");
         }, 3000);
       } catch (error) {
-        console.log(error.message);
+        setloading(false)
+        console.log(error.response.data.Error);
         toast.error(error.response.data.Error, {
           position: "top-center",
           autoClose: 5000,

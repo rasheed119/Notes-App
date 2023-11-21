@@ -50,7 +50,7 @@ function Notes() {
               className="flex justify-center items-center gap-2 bg-[#2C4251] w-[100px] text-white p-4 rounded-full hover:opacity-90"
             >
               <IoMdArrowRoundBack />
-              <button className="">Back</button>
+              <button>Back</button>
             </Link>
             <div className="flex items-center gap-4">
               <h1 className="text-2xl font-bold underline uppercase">
@@ -62,7 +62,10 @@ function Notes() {
               <h1 className="text-2xl font-bold underline uppercase">
                 Description :
               </h1>
-              <div dangerouslySetInnerHTML={{ __html: description }} />
+              <div
+                className="w-full"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
             </div>
           </div>
         )}

@@ -1,40 +1,59 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { CiLogout } from "react-icons/ci";
+import { useCookies } from "react-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Header() {
+  const navigate = useNavigate();
+  const [Cookie, setCookie, removeCookie] = useCookies(["access_token"]);
+  const Logout = () => {
+    localStorage.removeItem("UserID");
+    removeCookie("access_token");
+    toast.warn("🦄 Wow so easy!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    setTimeout(() => {
+      navigate("/");
+    }, 3000);
+  };
   return (
-    <nav class="flex justify-between lg:px-20 md:px-20 py-5 items-center sm:px-10 shadow-md">
-      <h1 class="text-xl font-bold">
-        <Link to={"/home"} >
-        Notes App
-        </Link>
-      </h1>
-      <div class="flex items-center">
-        <div class="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 pt-0.5 text-gray-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+    <>
+      <nav class="flex justify-between lg:px-20 md:px-20 py-5 items-center sm:px-10 shadow-md">
+        <h1 class="text-xl font-bold">
+          <Link to={"/home"}>Notes App</Link>
+        </h1>
+        <div>
+          <button
+            onClick={Logout}
+            className="flex items-center gap-3 border-black border-2 px-3 py-2  rounded-full"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <input
-            class="ml-2 outline-none bg-transparent font-"
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search..."
-          />
+            <CiLogout className="text-xl" />
+            Logout
+          </button>
         </div>
-      </div>
-    </nav>
+      </nav>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+    </>
   );
 }
 

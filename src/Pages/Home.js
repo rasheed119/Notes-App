@@ -105,7 +105,10 @@ function Home() {
                 </div>
                 <div>
                   <h1 className="font-semibold text-xl ">Description :</h1>
-                  <span className="line-clamp-2">{data.description}</span>
+                  <span
+                    className="line-clamp-2"
+                    dangerouslySetInnerHTML={{ __html: data.description }}
+                  ></span>
                 </div>
 
                 <div className="flex gap-4 justify-center">
