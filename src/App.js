@@ -29,7 +29,7 @@ function App() {
   return (
     <>
       <div className="fixed bottom-10 right-10" onClick={handletheme}>
-        <label className="swap swap-rotate">
+        <label className="swap swap-rotate z-20">
           {/* this hidden checkbox controls the state */}
           <input
             type="checkbox"
@@ -48,7 +48,7 @@ function App() {
 
           {/* moon icon */}
           <svg
-            className="swap-off fill-current w-10 h-10"
+            className="swap-off fill-current w-10 h-10 "
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -62,8 +62,8 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/home" element={<Home />} />
           <Route path="/create" element={<CreateNote />} />
-          <Route path="/notes" element={<Notes />} />
-          <Route path="/edit/:id" element={<Edit/>}/>
+          <Route path="/notes/:id" element={<Notes />} />
+          <Route path="/edit/:title/:description/:id" element={<Edit />} />
         </Route>
       </Routes>
     </>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
-import Footer from "../Components/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { api } from "../api";
 import { useCookies } from "react-cookie";
@@ -11,6 +10,7 @@ import { MdOpenInNew } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 
 function Home() {
+  const navigate = useNavigate();
   const [Notes, setNotes] = useState([]);
   const [id, setid] = useState();
   const [cookie] = useCookies(["access_token"]);
@@ -52,7 +52,7 @@ function Home() {
       getnotes();
     } catch (error) {
       console.log(error.message);
-      toast.error("Notes Created Successfully", {
+      toast.error(error.response.data.Error, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,
@@ -64,6 +64,12 @@ function Home() {
       });
     }
   }
+  const editNote = (title, description, id) => {
+    const encodedTitle = encodeURIComponent(title);
+    const encodedDescription = encodeURIComponent(description);
+    const encodedID = encodeURIComponent(id);
+    navigate(`/edit/${encodedTitle}/${encodedDescription}/${encodedID}`);
+  };
   return (
     <>
       <Header />
@@ -93,7 +99,7 @@ function Home() {
                 key={index}
                 className="border-solid border-2 border-black rounded-lg max-w-[300px] py-3 px-2 flex flex-col gap-4"
               >
-                <div className="flex items-center gap-2 ">
+                <div>
                   <h1 className="font-semibold text-xl">Title :</h1>
                   <span>{data.title}</span>
                 </div>
@@ -111,10 +117,19 @@ function Home() {
                     title="delete"
                     className="text-red-500 text-2xl"
                   />
-                  <Link to={`/edit/${data._id}`}>
-                    <CiEdit title="Edit" className="text-red-500 text-2xl" />
+                  <CiEdit
+                    onClick={() =>
+                      editNote(data.title, data.description, data._id)
+                    }
+                    title="Edit"
+                    className="text-red-500 text-2xl"
+                  />
+                  <Link to={`/notes/${data._id}`}>
+                    <MdOpenInNew
+                      title="open"
+                      className="text-red-500 text-2xl"
+                    />
                   </Link>
-                  <MdOpenInNew title="open" className="text-red-500 text-2xl" />
                 </div>
                 <dialog id="my_modal_1" className="modal">
                   <div className="modal-box">
@@ -153,7 +168,6 @@ function Home() {
         pauseOnHover
         theme="dark"
       />
-      <Footer />
     </>
   );
 }
