@@ -38,8 +38,8 @@ function Notes() {
       <Header />
 
       <section className="container mx-auto py-16">
-        {!loading && Object.keys(notes).length === 0 && (
-          <div>
+        {loading && (
+          <div className="w-full flex justify-center">
             <div className="spinner"></div>
           </div>
         )}
