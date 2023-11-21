@@ -9,7 +9,7 @@ function Header() {
   const navigate = useNavigate();
   const [Cookie, setCookie, removeCookie] = useCookies(["access_token"]);
   const Logout = () => {
-    localStorage.removeItem("UserID");
+    localStorage.removeItem("userID");
     removeCookie("access_token");
     toast.warn("🦄 Wow so easy!", {
       position: "top-center",
